@@ -27,15 +27,17 @@ require("./navigateur.php");
 ?>
 
 <form action="/jeu.php" method="GET">
-    <input type="number" name="proposition" placeholder="Devine le nombre !">
+    <input type="number" name="proposition" id="proposition" placeholder="Devine le nombre !" value = <?= htmlentities($_GET["proposition"])?>>
     <button type="submit">Soumettre la proposition</button>
 </form>
 
 <pre>
     <?php 
-        if ($_GET["proposition"]!= 0) {
-            echo 'Vous avez essayé le nombre :' . $_GET["proposition"] . "\n" ;
-            echo hintClient($_GET["proposition"],$aDeviner) . "\n";
+    //HTMLentities permet de traduire les objets "texte" que l'utilisateur transmet pour ne pas pouvoir manipuler du PHP ou JS comme il le souhaite
+    //NEVER TRUST USERS !!! 
+        if ((int)$_GET["proposition"]!= 0) {
+            echo 'Vous avez essayé le nombre :' . htmlentities($_GET["proposition"]) . "\n" ;
+            echo hintClient(htmlentities($_GET["proposition"]),$aDeviner) . "\n";
         }else {
             echo "Vous devez soumettre un nombre pour avoir un indice ! \n";
         }

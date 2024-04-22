@@ -109,4 +109,7 @@
     <!-- Custom styles for this template -->
     <link href="navbar-static.css" rel="stylesheet">
   </head>
-  <body>
+  <!-- Le code PHP permet a l'utilisateur si il est sur JEU.php d'etre automatique focus sur l'input adéquat Pas propre mais peut etre pratique d'en faire une fonction ... -->
+  <body <?php if($_SERVER["SCRIPT_NAME"]==="/jeu.php") {
+      echo 'onload = "document.getElementById(\'proposition\').focus()"';
+      }?>>
