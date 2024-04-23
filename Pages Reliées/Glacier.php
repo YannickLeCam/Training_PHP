@@ -58,13 +58,38 @@ HT;
     return $retour;
 }
 
+function sommepartype (string $nomTabInPost , $tableau):int {
+    if (isset($_POST[$nomTabInPost])) {
+        $somme=0;
+        foreach($_POST[$nomTabInPost] as $type){
+            foreach($tableau as $sup => $prix){
+                if ($type == $sup) {
+                    $somme += $prix;
+                    break;
+                }
+            }
+        }
+        return $somme;
+    }else {
+        return 0;
+    }
+}
+
+function sommetotal ($parfum,$type_glace,$suplement):int {
+    $somme=0;
+    $somme += sommepartype("parfum", $parfum);
+    $somme += sommepartype("type_glace", $type_glace );
+    $somme += sommepartype("suplement", $suplement );
+    return $somme;
+}
+
 
 ?>
-<h2>Bienvenue au glacier</h2>
+<h1>Bienvenue au glacier</h1>
 <p>Vous pouvez concevoir votre glace et on vous diras le prix</p>
 
 <form action="/Glacier.php" method="POST">
-    <h4>Faite votre Glace</h4>
+    <h2>Faite votre Glace</h2>
     <h3>Quels parfum vous faut-il ?</h3>
     <?php 
         echo set_checkbox($parfum , "parfum");
@@ -82,35 +107,9 @@ HT;
 
 <pre>
     <?php
-        if(isset($_POST)){
-            $somme =0;
-            foreach($_POST["parfum"] as $type){
-                foreach($parfum as $gout => $prix){
-                    if ($type == $gout) {
-                        $somme += $prix;
-                        break;
-                    }
-                }
-            }
-            foreach($_POST["type_glace"] as $type){
-                foreach($type_glace as $genre => $prix){
-                    if ($type == $genre) {
-                        $somme += $prix;
-                        break;
-                    }
-                }
-            }
-            //On doit en faire 2 fonctions pour que ca soit propre une qui execute le foreach et une qui somme les foreach 
-            //De plus vérifié que les tableaux existent bien avant ...
-            foreach($_POST["suplement"] as $type){
-                foreach($suplement as $sup => $prix){
-                    if ($type == $sup) {
-                        $somme += $prix;
-                        break;
-                    }
-                }
-            }
-            echo $somme;
+        $somme = sommetotal($parfum,$type_glace,$suplement);
+        if($somme!=0){
+            echo "Le total est : $somme €";
         }else {
             echo "En attente de votre commande ...";
         }
@@ -119,6 +118,8 @@ HT;
 </pre>
 
 
+
+<h4>Vision de $_POST</h4>
 <pre>
     <?php
         var_dump($_POST);
