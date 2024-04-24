@@ -20,7 +20,7 @@ $suplement = [
     "Nappage chocolat" => 2
 ];
 
-function set_checkbox ( $tableau , string $type ) : string {
+function set_checkbox (Array $tableau , string $type ) : string {
     $retour="";
     $checked = "";
     foreach ($tableau as $key => $value){
@@ -39,7 +39,7 @@ HT;
     return $retour;
 }
 
-function set_radio ( $tableau , string $type ) : string {
+function set_radio ( Array $tableau , string $type ) : string {
     $retour="";
     $checked = "";
     foreach ($tableau as $key => $value){
@@ -58,7 +58,7 @@ HT;
     return $retour;
 }
 
-function sommepartype (string $nomTabInPost , $tableau):int {
+function sommepartype (string $nomTabInPost ,Array $tableau):int {
     if (isset($_POST[$nomTabInPost])) {
         $somme=0;
         foreach($_POST[$nomTabInPost] as $type){
@@ -75,7 +75,7 @@ function sommepartype (string $nomTabInPost , $tableau):int {
     }
 }
 
-function sommetotal ($parfum,$type_glace,$suplement):int {
+function sommetotal (Array $parfum,Array $type_glace,Array $suplement):int {
     $somme=0;
     $somme += sommepartype("parfum", $parfum);
     $somme += sommepartype("type_glace", $type_glace );
