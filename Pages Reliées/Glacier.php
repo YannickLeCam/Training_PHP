@@ -6,7 +6,8 @@ $parfum = [
     "Fraise" => 4,
     "Violette" => 5,
     "Citron" => 3,
-    "Chocolat" => 2
+    "Chocolat" => 2,
+    "Caramel" => 3
 ];
 
 $type_glace = [
@@ -17,7 +18,8 @@ $type_glace = [
 $suplement = [
     "Pépites de chocolat" => 3,
     "Chantilly" => 1,
-    "Nappage chocolat" => 2
+    "Nappage chocolat" => 2,
+    "Fondant au chocolat" => 10
 ];
 
 function set_checkbox (Array $tableau , string $type ) : string {
