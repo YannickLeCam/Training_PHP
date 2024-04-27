@@ -39,6 +39,8 @@ function active ( string $lien , string $titre ) : string {
           <?php echo active("/Glacier.php", "Glacier") ?>
         <li class="nav-item">
           <?php echo active("/menu.php", "Menu") ?>
+        <li class="nav-item">
+          <?php echo active("/newsletter.php", "Newsletter") ?>
       </ul>
     </div>
   </div>
