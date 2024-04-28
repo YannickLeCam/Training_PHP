@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * =============================================================================================================
+ *                              TEST DE LECTURE ET ECRITURE DE FICHIER
+ * =============================================================================================================
+ */
 /**
  * La constante __DIR__ permet de localiser le chemin d'accès du fichier actuel 
  * La constante DIRECTORY_SEPARATOR permet de d'ajouter un séparateur de fichier selon le systeme d'exploitation (Windows = \ Linux = /)
