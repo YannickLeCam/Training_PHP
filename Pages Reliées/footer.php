@@ -1,7 +1,7 @@
 <?php
 function findIndex(string $lien,array $file):int{
     foreach($file as $i => $data){
-        $data = unserialize($data);
+        $data = unserialize(rtrim($data));
         if (!empty($data[$lien])) {
             return $i;
         }
@@ -14,7 +14,7 @@ function addVue(string $lien):bool {
     $fichierVue = file($fichierVueAddr);
     $indexLigne = findIndex($lien,$fichierVue);
     if ($indexLigne!== -1 ) {
-        $data=unserialize($fichierVue[$indexLigne]);
+        $data=unserialize(rtrim($fichierVue[$indexLigne]));
         $data[$lien]++;
         $fichierVue[$indexLigne] = serialize($data) . "\n";
     }elseif ($indexLigne == -2) {
@@ -33,7 +33,7 @@ function nbDeVue (string $lien):int {
     $fichierVueAddr = __DIR__ . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR . "vue.txt";
     $fichierVue = file($fichierVueAddr);
     $indexLigne = findIndex($lien,$fichierVue);
-    $data = unserialize($fichierVue[$indexLigne]);
+    $data = unserialize(rtrim($fichierVue[$indexLigne]));
     return $data[$lien];
 }
 addVue($_SERVER["SCRIPT_NAME"]);
