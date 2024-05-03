@@ -1,41 +1,7 @@
 <?php
-function findIndex(string $lien,array $file):int{
-    foreach($file as $i => $data){
-        $data = unserialize(rtrim($data));
-        if (!empty($data[$lien])) {
-            return $i;
-        }
-    }
-    //if isn't in file 
-    return -1;
-}
-function addVue(string $lien):bool {
-    $fichierVueAddr = __DIR__ . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR . "vue.txt";
-    $fichierVue = file($fichierVueAddr);
-    $indexLigne = findIndex($lien,$fichierVue);
-    if ($indexLigne!== -1 ) {
-        $data=unserialize(rtrim($fichierVue[$indexLigne]));
-        $data[$lien]++;
-        $fichierVue[$indexLigne] = serialize($data) . "\n";
-    }elseif ($indexLigne == -2) {
-        echo "Erreur : findIndex Error Critique";
-        return false;
-    }
-    else {
-        $fichierVue[]= serialize([$lien => 1])."\n";
-        
-    }
-    file_put_contents($fichierVueAddr,$fichierVue);
-    return true;
-}
-
-function nbDeVue (string $lien):int {
-    $fichierVueAddr = __DIR__ . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR . "vue.txt";
-    $fichierVue = file($fichierVueAddr);
-    $indexLigne = findIndex($lien,$fichierVue);
-    $data = unserialize(rtrim($fichierVue[$indexLigne]));
-    return $data[$lien];
-}
+require_once("./fonction/fonct_vue.php");
+addVueJournalier($_SERVER["SCRIPT_NAME"]);
+$nb_vue_journalier = nbDeVueJournalier($_SERVER["SCRIPT_NAME"]);
 addVue($_SERVER["SCRIPT_NAME"]);
 $nb_vue = nbDeVue($_SERVER["SCRIPT_NAME"]);
 
@@ -44,7 +10,7 @@ $nb_vue = nbDeVue($_SERVER["SCRIPT_NAME"]);
 <footer>
     <div>
         <p>
-            Cette page a été vu : <?= $nb_vue;?>
+            Cette page a été vu : <?= $nb_vue;?> et aujourd'hui <?= $nb_vue_journalier?>
         </p>
     </div>
 
