@@ -41,8 +41,8 @@ echo "TESTE 2\n";
 var_dump(writeMailInFile("coucou@gefsefds.ds"));
 */
 
-require("./header.php");
-require("./navigateur.php");
+require("./elements/header.php");
+require("./elements/navigateur.php");
 ?>
 
 <h1>Newsletter</h1>
@@ -64,6 +64,6 @@ require("./navigateur.php");
 </form>
 
 <?php
-require("./footer.php");
+require("./elements/footer.php");
 ?>
 

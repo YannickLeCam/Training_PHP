@@ -1,6 +1,6 @@
 <?php
-require("./header.php");
-require("./navigateur.php");
+require("./elements/header.php");
+require("./elements/navigateur.php");
 
 /**
  * Le but de cette page est de présenter un menu claire d'un restaurant fictif créer par mes soin dans le format dans un premier temps tsv puis csv, puis mettre en code html le tout pour l'afficher comme il se doit
@@ -69,5 +69,5 @@ function csvToHtml ( string $menu = __DIR__ . DIRECTORY_SEPARATOR . "data" . DIR
 ?>
 
 <?php
-require("./footer.php");
+require("./elements/footer.php");
 ?>

@@ -1,6 +1,6 @@
 <?php
-require("./header.php");
-require("./navigateur.php");
+require("./elements/header.php");
+require("./elements/navigateur.php");
 require_once("./fonction/fonct_vue.php");
 
 $nb_vue_total = nbVueMois();
@@ -54,5 +54,5 @@ $tab_vue_mois = nbVueMois($annee_selected,$mois_selected);
 
 
 <?php
-require("./footer.php");
+require("./elements/footer.php");
 ?>

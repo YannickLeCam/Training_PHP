@@ -2,6 +2,6 @@ a:1:{s:11:"/profil.php";i:18;}
 a:1:{s:8:"/jeu.php";i:7;}
 a:1:{s:12:"/contact.php";i:10;}
 a:1:{s:10:"/index.php";i:9;}
-a:1:{s:9:"/menu.php";i:1;}
+a:1:{s:9:"/menu.php";i:2;}
 a:1:{s:10:"/photo.php";i:1;}
-a:1:{s:14:"/dashboard.php";i:186;}
+a:1:{s:14:"/dashboard.php";i:203;}

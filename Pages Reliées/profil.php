@@ -16,8 +16,8 @@ if (!empty($_COOKIE["identifiant"])) {
 
 
 <?php
-require("./header.php");
-require("./navigateur.php");
+require("./elements/header.php");
+require("./elements/navigateur.php");
 ?>
 
 
@@ -45,6 +45,6 @@ if (!empty($_COOKIE["identifiant"])) {
 
 
 <?php
-require("./footer.php");
+require("./elements/footer.php");
 
 ?>

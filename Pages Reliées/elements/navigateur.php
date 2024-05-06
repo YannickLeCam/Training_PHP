@@ -41,8 +41,6 @@ function active ( string $lien , string $titre ) : string {
           <?php echo active("/menu.php", "Menu") ?>
         <li class="nav-item">
           <?php echo active("/newsletter.php", "Newsletter") ?>
-        <li class="nav-item">
-          <?php echo active("/profil.php", "Log In") ?>
         <?php 
         if(!empty($_COOKIE["identifiant"])){
           $texte = active("/photo.php", "Photo");
@@ -54,6 +52,8 @@ HTML;
         ?>
         <li class="nav-item">
           <?php echo active("/dashboard.php", "Dashboard") ?>
+        <li class="nav-item">
+          <?php echo active("/connexion.php", "Log In") ?>
       </ul>
     </div>
   </div>

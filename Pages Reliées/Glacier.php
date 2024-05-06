@@ -1,6 +1,6 @@
 <?php
-require("./header.php");
-require("./navigateur.php");
+require("./elements/header.php");
+require("./elements/navigateur.php");
 
 $parfum = [
     "Fraise" => 4,
@@ -133,6 +133,6 @@ function sommetotal (Array $parfum,Array $type_glace,Array $suplement):int {
 
 
 <?php
-require("./footer.php");
+require("./elements/footer.php");
 
 ?>

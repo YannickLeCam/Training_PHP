@@ -1,6 +1,6 @@
 <?php
-require("./header.php");
-require("./navigateur.php");
+require("./elements/header.php");
+require("./elements/navigateur.php");
 
 require_once("./Env.php");
 
@@ -116,5 +116,5 @@ function crenneauToHtml(Array $tableau_horraire):string {
 
 
 <?php
-require("./footer.php");
+require("./elements/footer.php");
 ?>

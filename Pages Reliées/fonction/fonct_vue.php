@@ -98,6 +98,7 @@ function nbVueMois(int $annee=null , int $mois=null):array {
     $listfichier = glob($fichierVueAddr);
     $retour=[];
     $somme = 0;
+    $retour["total"]=0;
     foreach($listfichier as $fichierAddr){
         $fichier=file($fichierAddr);
         foreach($fichier as $ligne){

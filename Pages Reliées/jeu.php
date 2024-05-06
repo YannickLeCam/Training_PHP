@@ -22,8 +22,8 @@ function hintClient(int $proposition,int $aDeviner):string {
 ?>
 
 <?php
-require("./header.php");
-require("./navigateur.php");
+require("./elements/header.php");
+require("./elements/navigateur.php");
 ?>
 
 <form action="/jeu.php" method="GET">
@@ -45,5 +45,5 @@ require("./navigateur.php");
 </pre>
 
 <?php
-require("./footer.php");
+require("./elements/footer.php");
 ?>

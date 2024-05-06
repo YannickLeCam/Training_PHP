@@ -1,10 +1,10 @@
 <?php 
 $title = "Accueil";
-require("./header.php");
+require("./elements/header.php");
 ?>
 
 <?php
-require("./navigateur.php");
+require("./elements/navigateur.php");
 ?>
 
 
@@ -22,4 +22,4 @@ require("./navigateur.php");
   </div>
 </main>
 
-<?php require("./footer.php");?>
+<?php require("./elements/footer.php");?>
