@@ -1,5 +1,6 @@
 <?php
 $identifiant = null;
+session_start();
 if (!empty($_POST["identifiant"])) {
     setcookie("identifiant", $_POST["identifiant"]);
 //    if (empty($_COOKIE["identifiant"])) {
@@ -36,8 +37,11 @@ require("./elements/navigateur.php");
 
 <?php
 var_dump($_COOKIE);
-if (!empty($_COOKIE["identifiant"])) {
-    echo "Hello ! ";
+
+if (!empty($_SESSION["id"])) {
+    echo "Hello " . $_SESSION["id"] . " !";
+}else {
+    header("Location: connexion.php");
 }
 
 ?>
