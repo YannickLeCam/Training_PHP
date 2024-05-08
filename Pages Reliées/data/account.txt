@@ -1,1 +1,3 @@
 a:3:{s:2:"id";s:4:"Popi";s:4:"mail";s:11:"Popi@pop.po";s:8:"password";s:64:"62a39df87b501ad40b6fc145820756ccedcab952c64626968e83ccbae5beae63";}
+a:3:{s:2:"id";s:4:"ikaz";s:4:"mail";s:12:"ikaz@ikaz.ik";s:8:"password";s:64:"50e61459c92e9435171b088f39ddb38379f2b4ea47bd9cfde5272ffab779803b";}
+a:3:{s:2:"id";s:4:"ikaz";s:4:"mail";s:15:"dsfqfdsq@dsf.hg";s:8:"password";s:64:"a308dda58fe324d87d2cef21a98825e9ab187e4b2f62df469118bc98fb916ccc";}

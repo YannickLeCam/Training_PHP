@@ -33,9 +33,6 @@ require("./elements/login.php");
  * Bien modifier les pages profil et dashboard pour rediriger a la connexion ou signaler un message d'erreur sur le fait que la personne n'y ai pas l'accès (en cas de forcing)
  */
 
-
-var_dump($_POST , $_SESSION , isStrongPassword($_POST["signup-password"]));
-
 ?>
 <link rel="stylesheet" href="./style/login.css">
 

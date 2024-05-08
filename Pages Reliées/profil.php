@@ -3,11 +3,7 @@ $identifiant = null;
 session_start();
 if (!empty($_POST["identifiant"])) {
     setcookie("identifiant", $_POST["identifiant"]);
-//    if (empty($_COOKIE["identifiant"])) {
-        
-//    }else {
-//       $_COOKIE["identifiant"]=$_POST["identifiant"];
- //   }
+
 }
 if (!empty($_COOKIE["identifiant"])) {
     $identifiant = htmlentities($_COOKIE["identifiant"]);
@@ -36,8 +32,6 @@ require("./elements/navigateur.php");
 </form>
 
 <?php
-var_dump($_COOKIE);
-
 if (!empty($_SESSION["id"])) {
     echo "Hello " . $_SESSION["id"] . " !";
 }else {
