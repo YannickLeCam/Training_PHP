@@ -1,0 +1,1 @@
+a:3:{s:2:"id";s:4:"Popi";s:4:"mail";s:11:"Popi@pop.po";s:8:"password";s:64:"62a39df87b501ad40b6fc145820756ccedcab952c64626968e83ccbae5beae63";}

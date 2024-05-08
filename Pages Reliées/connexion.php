@@ -6,6 +6,14 @@ if (!empty($_POST["login-email"]) & !empty($_POST["login-password"])) {
     }
 }
 
+if (!empty($_POST["signup-username"])&!empty($_POST["signup-email"])&!empty($_POST["signup-password"])&!empty($_POST["signup-password-confirm"])) {
+    if(register($_POST["signup-username"],$_POST["signup-email"],$_POST["signup-password"],$_POST["signup-password-confirm"])){
+        echo "Le compte a bien été créer !";
+    }else {
+        echo "Probleme lors de la création de compte";
+    }
+}
+
 if (!empty($_SESSION)) {
     header("Location: profil.php");
 }
@@ -26,13 +34,10 @@ require("./elements/login.php");
  */
 
 
-var_dump($_POST , $_SESSION);
+var_dump($_POST , $_SESSION , isStrongPassword($_POST["signup-password"]));
 
 ?>
 <link rel="stylesheet" href="./style/login.css">
-
-
-
 
 <script src="./js/login.js"></script>
 <?php

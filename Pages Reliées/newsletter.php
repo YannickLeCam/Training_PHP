@@ -35,10 +35,10 @@ function writeMailInFile( string $data ):bool{
 /**
  * Testes des fonctions mis en commentaire pour ne pas gèner la génération de la page html
  *
-echo "TESTE 1\n";
-var_dump(writeMailInFile("coucou"));
-echo "TESTE 2\n";
-var_dump(writeMailInFile("coucou@gefsefds.ds"));
+*echo "TESTE 1\n";
+*var_dump(writeMailInFile("coucou"));
+*echo "TESTE 2\n";
+*var_dump(writeMailInFile("coucou@gefsefds.ds"));
 */
 
 require("./elements/header.php");

@@ -8,4 +8,4 @@ a:1:{s:10:"/photo.php";i:3;}
 a:1:{s:12:"/Glacier.php";i:6;}
 a:1:{s:8:"/jeu.php";i:17;}
 a:1:{s:14:"/dashboard.php";i:282;}
-a:1:{s:14:"/connexion.php";i:58;}
+a:1:{s:14:"/connexion.php";i:67;}
