@@ -14,7 +14,7 @@ class Joueur{
         $this->isCouche = $isCouche;
     }
 
-    public function resetJoueur(){
+    public function resetJoueur():void{
         $this->mise= 0;
         $this->miseTotal = 0;
         $this->hand = [];
