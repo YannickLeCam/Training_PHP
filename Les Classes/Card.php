@@ -6,7 +6,7 @@ class Card {
     public bool $isPicked;
 
 
-    public function __construct(string $color, int $value , ?bool $isPicked = false) {
+    public function __construct(string $color, int $value , bool $isPicked = false) {
         $this->color = $color;
         $this->value = $value;
         $this->isPicked = $isPicked;
