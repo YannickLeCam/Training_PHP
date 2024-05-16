@@ -2,29 +2,28 @@
 require_once('./Card.php');
 
 
-function isFlush(array $cards):bool{
+function isFlush(array $cards):array{
     $verification=[
-        "♥" => 0,
-        "♦" => 0,
-        "♣" => 0,
-        "♠" => 0
+        "♥" => [],
+        "♦" => [],
+        "♣" => [],
+        "♠" => []
     ];
     foreach($cards as $card){
         foreach ($verification as $couleur => $compte) {
             
             if ($card->color == $couleur) {
-                $verification[$couleur]=$compte+1;
+                $verification[$couleur][]=$card;
                 //pourquoi compte++; ne fonctionne pas ???
             }
         }
     }
-    var_dump($verification);
     foreach ($verification as $key => $value) {
-        if ($value > 4) {
-            return true;
+        if (count($value) > 4) {
+            return $value;
         }
     }
-    return false;
+    return [];
 }
 function testFlush(){
     echo "===========================================\n";
@@ -48,38 +47,47 @@ function testFlush(){
     echo "Est sensé retrouver false : \n";
     var_dump(isFlush($cardmerge));
 }
+//testFlush();
 
-function isSuit(array $cards):bool {
-    $verification=[];
+function isSuit(array $cards):array {
+    $values = [];
+    $hasAce = false;
+
+    // Créer un tableau des valeurs des cartes, en tenant compte de la possibilité de l'As en tant que 1 ou 14
     foreach ($cards as $card) {
-        $verification[] = $card->value;
-        if ($card->value==1) {
-            $verification[]=14;
+        $values[$card->value][] = $card;
+        if ($card->value == 1) {
+            $values[14][] = $card; // Ajouter également l'As en tant que 14
         }
     }
-    sort($verification);
-    //il faut gerer le cas AS = 14 ou 1
-    $lastvalue = $verification[0];
-    $compteur = 1;
 
-    foreach ($verification as $i => $value) {
-        if ($value == $lastvalue+1) {
-            $lastvalue = $value;
-            $compteur++;
-            if ($compteur > 4) {
-                return true;
+    // Initialiser les variables pour la recherche de suite
+    $sequence = [];
+    $longestSequence = [];
+
+    // Parcourir les valeurs des cartes dans l'ordre décroissant pour trouver la plus longue suite
+    for ($i = 14; $i >= 1; $i--) {
+        if (isset($values[$i])) {
+            $sequence[] = $values[$i][0]; // Ajouter la première carte de chaque valeur à la suite
+            if (count($sequence) > count($longestSequence)) {
+                // Mise à jour de la suite la plus longue
+                $longestSequence = $sequence;
             }
-        }else {
-            if ($lastvalue == $value) {
-                continue;
-            }else {
-                $compteur = 1;
-                $lastvalue = $value;
-            }
+        } else {
+            // La suite est brisée, réinitialiser la séquence
+            $sequence = [];
         }
     }
-    return false;
+
+    // Vérifier si la plus longue suite a une longueur d'au moins 5 pour être considérée comme une suite
+    if (count($longestSequence) >= 5) {
+        return $longestSequence;
+    } else {
+        return []; // Aucune suite de 5 cartes ou plus trouvée
+    }
 }
+
+
 function testSuit(){
     echo "===========================================\n";
     echo "Debut des Testes pour la Suite\n";
@@ -125,7 +133,9 @@ function testSuit(){
     echo "Est sensé retrouver true : \n";
     var_dump(isSuit($cardmerge));
 }
+//testSuit();
 
+//A modifier
 function isQuinteFlush(array $cards):bool{
     $trie =[
         "♥" => [],
@@ -236,10 +246,10 @@ function isQuinteFlushRoyal(array $cards){
             }
         }
     }
-    
+    $retour = [];
     foreach ($trie as $couleur => $sortedCards) {
         if (count($sortedCards)>4) {
-            if(isSuit($sortedCards)){
+            if(isSuit($sortedCards)!=[]){
                 $compteur=[
                     1=>0,
                     13=>0,
@@ -251,16 +261,17 @@ function isQuinteFlushRoyal(array $cards){
                     foreach ($compteur as $valeur => $compte) {
                         if ($card->value == $valeur) {
                             $compteur[$valeur]=$compte+1;
+                            $retour[0][]=$card;
                         }
                     }
                 }
                 if ($compteur[1]>0 & $compteur[13]>0 & $compteur[12]>0 & $compteur[11]>0 & $compteur[10]>0) {
-                    return true;
+                    return $retour;
                 }
             }
         }
     }
-    return false;
+    return [];
 }
 
 function testQuinteFlushRoyal(){
@@ -331,23 +342,29 @@ function testQuinteFlushRoyal(){
 }
 
 
-//testQuinteFlushRoyal();
+testQuinteFlushRoyal();
 
 function isPair( array $cards){
     $verification = [];
     foreach ($cards as $card) {
-        if (isset($verification[$card->value])) {
-            $verification[$card->value]=$verification[$card->value]+1;
-        }else {
-            $verification[$card->value]=1;
+        if ($card->value == 1) {
+            $verification[14][]=$card;
+        }
+        $verification[$card->value][]=$card;
+    }
+    $Paire=[];
+    //on part de la plus forte valeur pour récupérer les valeur les plus hautes
+    for ($i=14; $i > 1 ; $i--) { 
+        if (isset($verification[$i])) {
+            if (count($verification[$i])==2) {
+                $Paire[]=$verification[$i];
+            }
+            if (count($Paire)==1) {
+                return $Paire;
+            }
         }
     }
-    foreach ($verification as $value => $compte) {
-        if ($compte==2) {
-            return true;
-        }
-    }
-    return false;
+    return [];
 }
 function testPair(){
     echo "=========================================== \n";
@@ -395,33 +412,39 @@ function testPair(){
     //test de paire avec un brelan
     $cardmerge = [];
     $cardmerge[]=New Card ("♥",1);
-    $cardmerge[]=New Card ("♦",4);
+    $cardmerge[]=New Card ("♦",1);
     $cardmerge[]=New Card ("♥",3);
     $cardmerge[]=New Card ("♣",9);
     $cardmerge[]=New Card ("♠",9);
     $cardmerge[]=New Card ("♦",8);
     $cardmerge[]=New Card ("♦",9);
-    echo "Est sensé retrouver false : \n";
+    echo "Est sensé retrouver true : \n";
     var_dump(isPair($cardmerge));
 }
 
 //testPair();
 
-function isBrelan(array $cards):bool {
+function isBrelan(array $cards):array {
     $verification = [];
     foreach ($cards as $card) {
-        if (isset($verification[$card->value])) {
-            $verification[$card->value]=$verification[$card->value]+1;
-        }else {
-            $verification[$card->value]=1;
+        if ($card->value == 1) {
+            $verification[14][]=$card;
+        }
+        $verification[$card->value][]=$card;
+    }
+    $Brelan=[];
+    //on part de la plus forte valeur pour récupérer les valeur les plus hautes
+    for ($i=14; $i > 1 ; $i--) { 
+        if (isset($verification[$i])) {
+            if (count($verification[$i])==3) {
+                $Brelan[]=$verification[$i];
+            }
+            if (count($Brelan)==1) {
+                return $Brelan;
+            }
         }
     }
-    foreach ($verification as $value => $compte) {
-        if ($compte==3) {
-            return true;
-        }
-    }
-    return false;
+    return [];
 }
 
 
@@ -486,21 +509,28 @@ function testBrelan(){
 
 
 
-function isCarre(array $cards):bool {
+function isCarre(array $cards):array {
     $verification = [];
     foreach ($cards as $card) {
-        if (isset($verification[$card->value])) {
-            $verification[$card->value]=$verification[$card->value]+1;
-        }else {
-            $verification[$card->value]=1;
+        if ($card->value == 1) {
+            $verification[14][]=$card;
+        }
+        $verification[$card->value][]=$card;
+    }
+    $Carre=[];
+    //on part de la plus forte valeur pour récupérer les valeur les plus hautes
+    for ($i=14; $i > 1 ; $i--) { 
+        if (isset($verification[$i])) {
+            if (count($verification[$i])==4) {
+                $Carre[]=$verification[$i];
+            }
+            if (count($Carre)==1) {
+                return $Carre;
+            }
         }
     }
-    foreach ($verification as $value => $compte) {
-        if ($compte==4) {
-            return true;
-        }
-    }
-    return false;
+    return [];
+
 }
 
 function testCarre(){
@@ -512,7 +542,7 @@ function testCarre(){
     for ($i=0; $i < 7; $i++) { 
         $cardmerge[]=New Card ("♦",1+$i);
     }
-    echo "Est sensé retrouver false : \n";
+    echo "Est sensé retrouver [] : \n";
     var_dump(isCarre($cardmerge));
     // test couleur fausse
     $cardmerge = [];
@@ -523,7 +553,7 @@ function testCarre(){
     $cardmerge[]=New Card ("♠",9);
     $cardmerge[]=New Card ("♦",9);
     $cardmerge[]=New Card ("♦",10);
-    echo "Est sensé retrouver false : \n";
+    echo "Est sensé retrouver [] : \n";
     var_dump(isCarre($cardmerge));
     //Une suite avec l'as = 14
     $cardmerge = [];
@@ -534,7 +564,7 @@ function testCarre(){
     $cardmerge[]=New Card ("♠",8);
     $cardmerge[]=New Card ("♦",8);
     $cardmerge[]=New Card ("♦",10);
-    echo "Est sensé retrouver false : \n";
+    echo "Est sensé retrouver [] : \n";
     var_dump(isCarre($cardmerge));
     //test avec un carré
     $cardmerge = [];
@@ -556,31 +586,33 @@ function testCarre(){
     $cardmerge[]=New Card ("♠",9);
     $cardmerge[]=New Card ("♦",8);
     $cardmerge[]=New Card ("♦",9);
-    echo "Est sensé retrouver false : \n";
+    echo "Est sensé retrouver [] : \n";
     var_dump(isCarre($cardmerge));
 }
 
 //testCarre();
 
-function isDoublePair(array $cards){
+function isDoublePair(array $cards):array{
     $verification = [];
     foreach ($cards as $card) {
-        if (isset($verification[$card->value])) {
-            $verification[$card->value]=$verification[$card->value]+1;
-        }else {
-            $verification[$card->value]=1;
+        if ($card->value == 1) {
+            $verification[14][]=$card;
+        }
+        $verification[$card->value][]=$card;
+    }
+    $doublePair=[];
+    for ($i=14; $i > 1 ; $i--) { 
+        if (isset($verification[$i])) {
+            if (count($verification[$i])==2) {
+                $doublePair[]=$verification[$i];
+            }
+            if (count($doublePair)==2) {
+                return $doublePair;
+            }
         }
     }
-    $nbPaires=0;
-    foreach ($verification as $value => $compte) {
-        if ($compte==2) {
-            $nbPaires++;
-        }
-    }
-    if ($nbPaires>1) {
-        return true;
-    }
-    return false;
+
+    return [];
 }
 
 function testDoublePair(){
@@ -603,7 +635,7 @@ function testDoublePair(){
     $cardmerge[]=New Card ("♠",9);
     $cardmerge[]=New Card ("♦",9);
     $cardmerge[]=New Card ("♦",10);
-    echo "Est sensé retrouver false : \n";
+    echo "Est sensé retrouver true : \n";
     var_dump(isDoublePair($cardmerge));
     //Une suite avec l'as = 14
     $cardmerge = [];
@@ -639,10 +671,11 @@ function testDoublePair(){
     echo "Est sensé retrouver false : \n";
     var_dump(isDoublePair($cardmerge));
 }
-
 //testDoublePair();
 
+//a modifier
 function isFullHouse(array $cards){
+
     if (isPair($cards) & isBrelan($cards)) {
         return true;
     }else {
