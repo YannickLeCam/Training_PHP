@@ -1,6 +1,7 @@
 <?php 
 require_once 'Deck.php';
 require_once 'Joueur.php';
+require_once 'ClassementPoker.php';
 
 
 class TablePoker {
@@ -38,5 +39,10 @@ class TablePoker {
             return true;
         }
         return false;
+    }
+
+    public function endGame(){
+        $resultat = New ClassementPoker ($this->joueurs , $this->river);
+        return $resultat;
     }
 }

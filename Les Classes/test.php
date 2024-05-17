@@ -18,9 +18,10 @@ $tableDePoker->startPhase1();
 $tableDePoker->addNewPlayer("Martin");
 $tableDePoker->addNewPlayer("Jack");
 $tableDePoker->startPhase1();
-var_dump($tableDePoker);
-$tableDePoker->resetTable();
-var_dump($tableDePoker);
+var_dump($tableDePoker->joueurs , $tableDePoker->river);
+$test=$tableDePoker-> endGame();
+var_dump($test->Gagnant);
+
 
 
 ?>

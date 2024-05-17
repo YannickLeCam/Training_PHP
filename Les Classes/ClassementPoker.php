@@ -69,7 +69,7 @@ function isSuit(array $cards):array {
     for ($i = 14; $i >= 1; $i--) {
         if (isset($values[$i])) {
             $sequence[] = $values[$i][0]; // Ajouter la première carte de chaque valeur à la suite
-            if (count($sequence) > count($longestSequence)) {
+            if (count($sequence) == 5) {
                 // Mise à jour de la suite la plus longue
                 $longestSequence = $sequence;
             }
@@ -136,7 +136,7 @@ function testSuit(){
 //testSuit();
 
 //A modifier
-function isQuinteFlush(array $cards):bool{
+function isQuinteFlush(array $cards):array{
     $trie =[
         "♥" => [],
         "♦" => [],
@@ -154,12 +154,13 @@ function isQuinteFlush(array $cards):bool{
     
     foreach ($trie as $couleur => $sortedCards) {
         if (count($sortedCards)>4) {
-            if(isSuit($sortedCards)){
-                return true;
+            $temp = isSuit($sortedCards);
+            if($temp!=[]){
+                return $temp;
             }
         }
     }
-    return false;
+    return [];
 }
 
 function testQuinteFlush(){
@@ -342,7 +343,7 @@ function testQuinteFlushRoyal(){
 }
 
 
-testQuinteFlushRoyal();
+//testQuinteFlushRoyal();
 
 function isPair( array $cards){
     $verification = [];
@@ -673,14 +674,14 @@ function testDoublePair(){
 }
 //testDoublePair();
 
-//a modifier
-function isFullHouse(array $cards){
+function isFullHouse(array $cards):array{
 
-    if (isPair($cards) & isBrelan($cards)) {
-        return true;
-    }else {
-        return false;
+    $Pair = isPair($cards);
+    $Brelan= isBrelan($cards);
+    if ($Pair != [] & $Brelan != []) {
+        return array_merge($Pair[0],$Brelan[0]);
     }
+    return [];
 }
 
 function testFullHouse(){
@@ -742,10 +743,108 @@ function testFullHouse(){
 
 //testFullHouse();
 
+function isHighCard(array $cards):array{
+    $retour = $cards[0];
+    foreach ($cards as $card) {
+        //detect AS qui est la plus haute carte possible
+        if ($card->value == 1) {
+            return [$card];
+        }
+        if ($card->value > $retour->value) {
+            $retour = $card;
+        }
+    }
+    return [$retour];
+}
+
+function testHighCard(){
+    $cardmerge = [];
+    $cardmerge[]=New Card ("♥",1);
+    $cardmerge[]=New Card ("♦",8);
+    $cardmerge[]=New Card ("♥",3);
+    $cardmerge[]=New Card ("♣",9);
+    $cardmerge[]=New Card ("♠",9);
+    $cardmerge[]=New Card ("♦",8);
+    $cardmerge[]=New Card ("♦",9);
+    echo "Est sensé retrouver 1 ♥ : \n";
+    var_dump(isHighCard($cardmerge));
+
+    $cardmerge = [];
+    $cardmerge[]=New Card ("♥",2);
+    $cardmerge[]=New Card ("♦",8);
+    $cardmerge[]=New Card ("♥",3);
+    $cardmerge[]=New Card ("♣",9);
+    $cardmerge[]=New Card ("♠",13);
+    $cardmerge[]=New Card ("♦",8);
+    $cardmerge[]=New Card ("♦",9);
+    echo "Est sensé retrouver 13 ♠ : \n";
+    var_dump(isHighCard($cardmerge));
+}
+
+//testHighCard();
+
 class ClassementPoker {
     public array $Gagnant;
+    public array $TAB_HANDS = [
+        "0" => [],//Quinte Flush Royal
+        "1" => [],//Quinte FLush
+        "2" => [],//Carre
+        "3" => [],//Full
+        "4" => [],//Couleur
+        "5" => [],//Suite
+        "6" => [],//Brelan
+        "7" => [],//Double Paire
+        "8" => [],//Paire
+        "9" => [],//Carte haute
+    ];
+    public function __construct(array $joueurs,array $riviere) {
+        foreach ($joueurs as $joueur) {
+            $Cardsmerge = array_merge($joueur->hand , $riviere);
+            //var_dump($joueur,$Cardsmerge);
+            if (($temp = isQuinteFlushRoyal($Cardsmerge)) != []) {
+                echo "Je suis dans QuinteFR\n";
+                $this->TAB_HANDS["0"][] = [$joueur,$temp];
+            }elseif (($temp = isQuinteFlush($Cardsmerge)) != []) {
+                echo "Je suis dans QuinteF\n";
+                $this->TAB_HANDS["1"][] = [$joueur,$temp];
+            }elseif (($temp = isCarre($Cardsmerge)) != []) {
+                echo "Je suis dans Carre\n";
+                $this->TAB_HANDS["2"][] = [$joueur,$temp];
+            }elseif (($temp = isFullHouse($Cardsmerge)) != []) {
+                echo "Je suis dans Full\n";
+                $this->TAB_HANDS["3"][] = [$joueur,$temp];  
+            }elseif (($temp = isFlush($Cardsmerge)) != []) {
+                echo "Je suis dans Flush\n";
+                $this->TAB_HANDS["4"][] = [$joueur,$temp];
+            }elseif (($temp = isSuit($Cardsmerge)) != []) {
+                echo "Je suis dans Suite\n";
+                $this->TAB_HANDS["5"][] = [$joueur,$temp];
+            }elseif (($temp = isBrelan($Cardsmerge)) != []) {
+                echo "Je suis dans Brelan\n";
+                $this->TAB_HANDS["6"][] = [$joueur,$temp];
+            }elseif (($temp = isDoublePair($Cardsmerge)) != []) {
+                echo "Je suis dans DP\n";
+                $this->TAB_HANDS["7"][] = [$joueur,$temp];
+            }elseif (($temp = isPair($Cardsmerge)) != []) {
+                echo "Je suis dans Pair\n";
+                $this->TAB_HANDS["8"][] = [$joueur,$temp];
+            }elseif (($temp = isHighCard($Cardsmerge)) != []) {
+                echo "Je suis dans HC\n";
+                $this->TAB_HANDS["9"][] = [$joueur,$temp];
+            }
+        }
+        for ($i= 9;$i>=0;$i--) { 
+            if (count($this->TAB_HANDS["$i"])>0) {
+                if (count($this->TAB_HANDS["$i"])==1) {
+                    $this->Gagnant = $this->TAB_HANDS["$i"];
+                    break;
+                }
+                else {
+                    //faire en sorte de voir si il y a une égalité
+                    $this->Gagnant = $this->TAB_HANDS["$i"];
+                }
+            }
+        }
 
-    public function __construct(array $joueurs) {
-        $this->var = $var;
     }
 }
