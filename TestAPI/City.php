@@ -49,4 +49,36 @@ if (isset($_POST["code_postal"])) {
 <?php
     }
 }
+echo "<pre>";
+var_dump($_SERVER);
+echo "</pre>";
+
+$ip = $_SERVER['REMOTE_ADDR']; // Adresse IP de l'utilisateur
+
+$accessKey = 'e34e768fd0718314508160b12f20f3905ac2202a4a158733a0244275'; // Clé d'accès à l'API IPDATA
+$apiUrl = "https://api.ipdata.co/$ip?api-key=$accessKey";
+var_dump($apiUrl);
+
+$testcurl = curl_init($apiUrl);
+curl_setopt_array($testcurl,[
+    CURLOPT_CAINFO         => __DIR__ . DIRECTORY_SEPARATOR . 'cert.crt',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 1
+]);
+$data = curl_exec($testcurl);
+var_dump($data);
+if ($data !== false) {
+    $data = json_decode($data, true);
+    if ($data !== null && isset($data['city'], $data['region_name'], $data['country_name'])) {
+        $city = $data['city'];
+        $region = $data['region_name'];
+        $country = $data['country_name'];
+        echo "L'utilisateur est localisé à $city, $region, $country.";
+    } else {
+        echo "Impossible de récupérer les informations de localisation.";
+    }
+} else {
+    echo "Échec de la requête vers l'API de géolocalisation.";
+}
+
 ?>
