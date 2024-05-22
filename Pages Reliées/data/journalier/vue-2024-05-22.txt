@@ -1,0 +1,4 @@
+a:1:{s:14:"/connexion.php";i:17;}
+a:1:{s:11:"/profil.php";i:4;}
+a:1:{s:14:"/dashboard.php";i:12;}
+a:1:{s:10:"/photo.php";i:2;}
