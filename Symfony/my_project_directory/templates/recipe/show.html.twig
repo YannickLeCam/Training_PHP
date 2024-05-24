@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toute les recette !{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+<div class="card text-start">
+    <div class="card-body">
+        <h4 class="card-title">{{ recipe.title }}</h4>
+        <h6>La recette a été crée le {{recipe.createdAt.format('d-m-Y')}}</h6>
+        <h6>Le temps de préparation est de <strong>{{recipe.duration}} minutes</strong> {% if recipe.NbPersonne is not null %}
+        pour <strong>{{ recipe.NbPersonne }} personne{{ recipe.NbPersonne > 1 ? 's' : '' }}</strong>
+        {% endif %}</h6>
+        <h6><strong>{{ recipe.ingredients != null ? "Ingrédients" : ""}}</strong></h6>
+        <p class="card-text">{{recipe.ingredients |replace({'\r\n': '<br>'})|raw}}</p>
+        <h6><strong>Instructions</strong></h6>
+        <p class="card-text">{{recipe.content |replace({'\r\n': '<br>'})|raw}}</p>
+    </div>
+</div>
+    <a
+        name=""
+        id=""
+        class="btn btn-primary"
+        href="{{url('recipe.edit', {id: recipe.id} )}}"
+        role="button"
+        >Modifier la recette</a
+    >
+        <a
+        name=""
+        id=""
+        class="btn btn-primary"
+        href="{{url('recipe.remove', {id: recipe.id} )}}"
+        role="button"
+        >Supprimer la recette</a
+    >
+    
+
+
+{% endblock %}
