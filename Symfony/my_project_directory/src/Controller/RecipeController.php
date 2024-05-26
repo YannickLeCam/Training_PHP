@@ -56,9 +56,12 @@ class RecipeController extends AbstractController
     public function edit(Recipe $recipe, Request $request , EntityManagerInterface $em): Response
     {
         $form = $this->createForm(RecipeType::class,$recipe);
+        
         $form->handleRequest($request);
+        
         if($form->isSubmitted() && $form->isValid()){
             $em->flush();
+            
             $this->addFlash('success','La recette a bien été modifiée');
             return $this->redirectToRoute('recipe.show',['slug'=>$recipe->getslug(),'id'=> $recipe->getid()]);
         }

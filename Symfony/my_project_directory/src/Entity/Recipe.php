@@ -5,8 +5,15 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\LessThan;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Positive;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[UniqueEntity('title')]
+#[UniqueEntity('slug')]
 class Recipe
 {
     #[ORM\Id]
@@ -15,18 +22,22 @@ class Recipe
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(min:5)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[NotBlank()]
     private ?string $content = null;
 
     #[ORM\Column]
+
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[LessThan(value:1440)] //La recette doit faire - de 24 h
     private ?int $duration = null;
 
     #[ORM\Column]
@@ -93,7 +104,7 @@ class Recipe
         return $this->duration;
     }
 
-    public function setDuration(int $duration): static
+    public function setDuration(?int $duration): static
     {
         $this->duration = $duration;
 
@@ -105,7 +116,7 @@ class Recipe
         return $this->NbPersonne;
     }
 
-    public function setNbPersonne(int $NbPersonne): static
+    public function setNbPersonne(?int $NbPersonne): static
     {
         $this->NbPersonne = $NbPersonne;
 

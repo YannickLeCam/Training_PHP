@@ -11,9 +11,14 @@
     <div class="card-body">
         <h4 class="card-title">{{ recipe.title }}</h4>
         <h6>La recette a été crée le {{recipe.createdAt.format('d-m-Y')}}</h6>
-        <h6>Le temps de préparation est de <strong>{{recipe.duration}} minutes</strong> {% if recipe.NbPersonne is not null %}
+        <h6>
+        {% if recipe.duration is not null %}
+        Le temps de préparation est de <strong>{{recipe.duration}} minutes</strong>
+        {% endif %} 
+        {% if recipe.NbPersonne is not null %}
         pour <strong>{{ recipe.NbPersonne }} personne{{ recipe.NbPersonne > 1 ? 's' : '' }}</strong>
-        {% endif %}</h6>
+        {% endif %}
+        </h6>
         <h6><strong>{{ recipe.ingredients != null ? "Ingrédients" : ""}}</strong></h6>
         <p class="card-text">{{recipe.ingredients |replace({'\r\n': '<br>'})|raw}}</p>
         <h6><strong>Instructions</strong></h6>
